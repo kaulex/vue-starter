@@ -9,12 +9,12 @@
         </select>
         <div>
             <input v-model="newIngredient" placeholder="New ingredient">
-            <button @click="addIngredient">Add</button>
+            <button @click="addNewIngredient">Add</button>
         </div>
         <ul class="ingredient-list">
             <li v-for="(ingredient, index) in selectedIngredients" :key="index" class="ingredient-item">
                 <span class="ingredient-name">{{ ingredient }}</span>
-                <button @click="removeIngredient(index)" class="remove-btn">Remove</button>
+                <button @click="removeSelectedIngredient(index)" class="remove-btn">Remove</button>
             </li>
         </ul>
     </div>
@@ -24,22 +24,26 @@
 import { ref, computed } from 'vue';
 import { useDefaultStore } from '@/stores/use-default-store';
 
+import type { IngredientCategory } from "@/types";
+
 const store = useDefaultStore();
+
+const { addIngredient, removeIngredient } = store;
 
 const selectedCategory = ref('breads');
 const newIngredient = ref('');
 
 const selectedIngredients = computed(() => store[selectedCategory.value as keyof typeof store]);
 
-const addIngredient = () => {
+const addNewIngredient = () => {
     if (newIngredient.value.trim()) {
-        store.addIngredient(selectedCategory.value, newIngredient.value.trim());
+        addIngredient(selectedCategory.value as IngredientCategory, newIngredient.value.trim());
         newIngredient.value = '';
     }
 };
 
-const removeIngredient = (index: number) => {
-    store.removeIngredient(selectedCategory.value, index);
+const removeSelectedIngredient = (index: number) => {
+    removeIngredient(selectedCategory.value as IngredientCategory, index);
 };
 </script>
 
