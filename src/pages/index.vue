@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <Topbar />
     <h1>Sandwich 3000</h1>
     <div class="filters">
       <select v-model="selectedBread">
@@ -107,16 +106,6 @@ const saveSandwich = (sandwich: string): void => {
 
 </script>
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
-.container {
-  font-family: 'Roboto', sans-serif;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  text-align: center;
-}
-
 .filters {
   display: flex;
   justify-content: center;

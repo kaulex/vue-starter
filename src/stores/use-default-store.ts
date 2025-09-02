@@ -62,6 +62,34 @@ export const useDefaultStore = defineStore("default", () => {
     }
   };
 
+  const addIngredient = (category: string, ingredient: string) => {
+    if (category in { breads, sauces, cheeses, fillings }) {
+      const categoryArray = (
+        {
+          breads,
+          sauces,
+          cheeses,
+          fillings,
+        } as { [key: string]: string[] }
+      )[category];
+      categoryArray.push(ingredient);
+    }
+  };
+
+  const removeIngredient = (category: string, index: number) => {
+    if (category in { breads, sauces, cheeses, fillings }) {
+      const categoryArray = (
+        {
+          breads,
+          sauces,
+          cheeses,
+          fillings,
+        } as { [key: string]: string[] }
+      )[category];
+      categoryArray.splice(index, 1);
+    }
+  };
+
   return {
     breads,
     sauces,
@@ -71,5 +99,7 @@ export const useDefaultStore = defineStore("default", () => {
     favoriteSandwiches,
     addSandwich,
     addToFavorites,
+    addIngredient,
+    removeIngredient,
   };
 });
