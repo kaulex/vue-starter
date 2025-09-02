@@ -22,7 +22,7 @@
         <option v-for="filling in fillings" :key="filling" :value="filling">{{ filling }}</option>
       </select>
     </div>
-    <div class="sandwich-lists">
+    <div class="sandwich-list">
       <ul v-if="sandwiches && sandwiches.length > 0">
         <h2>Created sandwiches:</h2>
         <li v-for="sandwich in sandwiches" :key="sandwich">
@@ -37,7 +37,7 @@
       </ul>
       <ul v-if="isFiltering">
         <h2>Filtered sandwiches:</h2>
-        <li v-for="filteredSandwich in filterSandwiches" :key="filteredSandwich">
+        <li v-for="filteredSandwich in filteredSandwiches" :key="filteredSandwich">
           {{ filteredSandwich }}
         </li>
       </ul>
@@ -50,7 +50,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import Topbar from '@/components/topbar.vue';
 import { computed, ref } from 'vue';
 import { useDefaultStore } from '@/stores/use-default-store';
 
@@ -77,7 +76,7 @@ const isFiltering = computed(() => {
   return selectedBread.value || selectedSauce.value || selectedCheese.value || selectedFilling.value;
 });
 
-const filterSandwiches = computed(() => {
+const filteredSandwiches = computed(() => {
   return sandwiches.filter(sandwich => {
     const matchesBread = !selectedBread.value || sandwich.includes(selectedBread.value);
     const matchesSauce = !selectedSauce.value || sandwich.includes(selectedSauce.value);
@@ -113,7 +112,7 @@ const saveSandwich = (sandwich: string): void => {
   margin-bottom: 20px;
 }
 
-.sandwich-lists {
+.sandwich-list {
   display: flex;
   justify-content: space-between;
   gap: 20px;

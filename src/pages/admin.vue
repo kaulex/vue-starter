@@ -33,10 +33,10 @@ const { addIngredient, removeIngredient } = store;
 const selectedCategory = ref('breads');
 const newIngredient = ref('');
 
-const selectedIngredients = computed(() => store[selectedCategory.value as keyof typeof store]);
+const selectedIngredients = computed(() => store[selectedCategory.value as IngredientCategory]);
 
 const addNewIngredient = () => {
-    if (newIngredient.value.trim()) {
+    if (newIngredient.value != '') {
         addIngredient(selectedCategory.value as IngredientCategory, newIngredient.value.trim());
         newIngredient.value = '';
     }
