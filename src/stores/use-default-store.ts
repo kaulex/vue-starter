@@ -1,7 +1,19 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 export const useDefaultStore = defineStore("default", () => {
+  const loadFromLocalStorage = () => {
+    const savedSandwiches = localStorage.getItem("sandwiches");
+    const savedFavorites = localStorage.getItem("favoriteSandwiches");
+    return {
+      sandwiches: savedSandwiches ? JSON.parse(savedSandwiches) : [],
+      favoriteSandwiches: savedFavorites ? JSON.parse(savedFavorites) : [],
+    };
+  };
+
+  const { sandwiches: savedSandwiches, favoriteSandwiches: savedFavorites } =
+    loadFromLocalStorage();
+
   const breads: string[] = [
     "Baguette",
     "Ciabatta",
@@ -28,8 +40,17 @@ export const useDefaultStore = defineStore("default", () => {
 
   const fillings: string[] = ["Jambon", "Poulet", "Saumon", "Thon", "Bacon"];
 
-  const sandwiches = ref<string[]>([]);
-  const favoriteSandwiches = ref<string[]>([]);
+  const sandwiches = ref<string[]>(savedSandwiches);
+  const favoriteSandwiches = ref<string[]>(savedFavorites);
+
+  watch(
+    () => [sandwiches.value, favoriteSandwiches.value],
+    ([newSandwiches, newFavorites]) => {
+      localStorage.setItem("sandwiches", JSON.stringify(newSandwiches));
+      localStorage.setItem("favoriteSandwiches", JSON.stringify(newFavorites));
+    },
+    { deep: true }
+  );
 
   const addSandwich = (sandwich: string) => {
     sandwiches.value.push(sandwich);
